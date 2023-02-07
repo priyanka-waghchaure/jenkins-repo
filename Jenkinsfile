@@ -1,41 +1,66 @@
 pipeline {
-    agent any
 
-    stages {
-        stage ('Compile Stage') {
+		agent {
+		
+				label 'built-in'
+		}
+		
+		stages {
+		
+		
+			stage ('stage-1'){
+			
+			steps {
+			
+			echo "Hello World"
+			
+			}
+			
+			}
+		
+		
+		
+			stage ('parallel-stages-2'){
+			
+			parallel {
+			
+			stage ('sleep-1'){
+			
+				steps {
+				
+						sleep 10
+				
+				}
+		
+			
+			}
+			
+			stage ('sleep-2'){
+			
+				steps {
+				
+						sleep 10
+				
+				}
+		
+			
+			}
+			
+			}
 
-            steps {
-                
-                    sh 'mvn clean compile'
-                }
-            
-        }
 
-        stage ('Testing Stage') {
-
-            steps {
-                
-                    sh 'mvn test'
-                }
-            
-        }
-
-
-        stage ('Install Stage') {
-            steps {
-                
-                    sh 'mvn install'
-                }
-            
-        }
-        
-        stage ('Echo Branch') {
-
-            steps {
-                
-                    echo "This is master branch"
-                }
-            
-        }
-    }
 }
+
+
+			stage ('stage-3'){
+			
+			steps {
+			
+			echo "Hello World"
+			
+			}
+			
+			}
+}
+}
+
