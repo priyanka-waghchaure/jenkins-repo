@@ -1,66 +1,22 @@
-pipeline {
-
-		agent {
-		
-				label 'built-in'
-		}
-		
-		stages {
-		
-		
-			stage ('stage-1'){
-			
-			steps {
-			
-			echo "Hello World"
-			
-			}
-			
-			}
-		
-		
-		
-			stage ('parallel-stages-2'){
-			
-			parallel {
-			
-			stage ('sleep-1'){
-			
-				steps {
-				
-						sleep 10
-				
-				}
-		
-			
-			}
-			
-			stage ('sleep-2'){
-			
-				steps {
-				
-						sleep 10
-				
-				}
-		
-			
-			}
-			
-			}
-
-
+pipeline{
+    agent any
+    stages{
+        stage("clone"){
+            steps{
+                sh "rm -rf /root/.m2/repository"
+                sh "git clone https://github.com/priyanka-waghchaure/game-of-life.git"
+            }
+        }
+        stage("build"){
+            steps{
+                sh "mvn -f /root/.jenkins/workspace/pipeline3/game-of-life/pom.xml install"
+                }
+        }
+        stage("deploy"){
+                steps{
+                      sh "cp -r /root/.jenkins/workspace/pipeline3/game-of-life/gameoflife-web/target/gameoflife.war /data/server/apache-tomcat-9.0.71/webapps"
+                }
+            }
+        
+    }
 }
-
-
-			stage ('stage-3'){
-			
-			steps {
-			
-			echo "Hello World"
-			
-			}
-			
-			}
-}
-}
-
